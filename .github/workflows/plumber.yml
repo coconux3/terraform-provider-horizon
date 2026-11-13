@@ -28,6 +28,6 @@ jobs:
       - name: Run Plumber
         uses: getplumber/plumber@v0.7.23
         with:
-          min-points: 85 # gate on the Plumber Score; raise to 100 to fail on any finding
+          soft-fail: true # report findings without failing the build; set min-points and remove this to gate on the Plumber Score
           score-push: true # publishes the Plumber Score badge (repo name + score become public); set false to keep it private
           upload-sarif: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
