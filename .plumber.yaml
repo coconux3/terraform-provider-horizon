@@ -3,13 +3,6 @@
 extends: plumber:default
 version: "2.0"
 
-github:
-  controls:
-    githubActionMustComeFromAuthorizedSources:
-      # Keep Plumber's curated list and add the third-party actions this repo already relies on.
-      includePlumberDefaults: true
-      trustedGithubActions:
-        - crazy-max/ghaction-import-gpg
-        - jdx/mise-action
-        - mikepenz/action-junit-report
-        - runs-on/action
+# Which third-party action owners you trust is your call. To approve one, add it under
+# github.controls.githubActionMustComeFromAuthorizedSources.trustedGithubActions,
+# with includePlumberDefaults: true to keep Plumber's curated list.
