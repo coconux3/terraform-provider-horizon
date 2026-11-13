@@ -1,0 +1,33 @@
+name: Plumber
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  plumber:
+    name: Plumber
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read # lets Plumber read workflow states and one run log to prove the token scope
+      security-events: write # SARIF upload to Code Scanning
+      id-token: write # required by score-push (CI-native OIDC, no secret)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.1.0
+        with:
+          persist-credentials: false
+      - name: Run Plumber
+        uses: getplumber/plumber@v0.7.23
+        with:
+          min-points: 85 # gate on the Plumber Score; raise to 100 to fail on any finding
+          score-push: true # publishes the Plumber Score badge (repo name + score become public); set false to keep it private
+          upload-sarif: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
