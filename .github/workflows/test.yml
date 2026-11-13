@@ -38,9 +38,9 @@ jobs:
 
     steps:
       - name: Configure Runs-On
-        uses: runs-on/action@v2
+        uses: runs-on/action@v2.7.1
       - name: Fetch secrets via Vault
-        uses: hashicorp/vault-action@v3
+        uses: hashicorp/vault-action@v3.4.0
         with:
           url: ${{ vars.VAULT_ADDR }}
           method: ${{ vars.VAULT_AUTH_METHOD }}
@@ -53,15 +53,15 @@ jobs:
             ci/data/repositories/evertrust/terraform-provider-horizon/license license | HRZ_LICENSE;
 
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v5.1.0
         with:
           fetch-depth: 0
           fetch-tags: true
       - name: Install mise
-        uses: jdx/mise-action@v4
+        uses: jdx/mise-action@v4.3.0
 
       - name: Log in to Harbor
-        uses: docker/login-action@v3
+        uses: docker/login-action@v3.7.0
         with:
           registry: ${{ env.REGISTRY_HOST }}
           username: ${{ env.REGISTRY_USERNAME }}
@@ -76,7 +76,7 @@ jobs:
 
       - name: Upload test report
         if: always()
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v6.0.0
         with:
           name: ci-report-${{ matrix.scenario.horizon-version }}
           path: tests/reports/
@@ -85,7 +85,7 @@ jobs:
 
       - name: Publish JUnit summary
         if: always()
-        uses: mikepenz/action-junit-report@v6
+        uses: mikepenz/action-junit-report@v6.7.1
         with:
           check_name: tests (${{ matrix.scenario.horizon-version }})
           report_paths: |
@@ -96,7 +96,7 @@ jobs:
 
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: ci-horizon-logs-${{ matrix.scenario.horizon-version }}
           path: tests/reports/horizon-*.log
